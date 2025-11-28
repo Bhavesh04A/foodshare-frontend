@@ -30,10 +30,10 @@ A clean, fast, responsive frontend for the FoodShare platform — connecting don
 
 # ⚙️ Setup
 
-```bash
-cd frontend
-npm install
-npm run dev
+
+- cd frontend
+- npm install
+- npm run dev
 
 ---
 
