@@ -126,8 +126,14 @@ export default function Navbar() {
     // Define navigation links based on authentication
     const getNavLinks = () => {
         if (user) {
+            const impactLabelRoles = ['ngo', 'restaurant', 'volunteer'];
+
             return [
-                { name: 'Home', path: getHomePath(user.role), section: 'home' },
+                {
+                    name: impactLabelRoles.includes(user.role) ? 'Impact' : 'Home',
+                    path: getHomePath(user.role),
+                    section: 'home',
+                },
                 { name: 'Dashboard', path: getDashboardPath(user.role), section: 'dashboard' },
                 { name: 'AI Assistant', path: '/assistant', section: 'assistant' },
                 { name: 'Analytics', path: '/analytics', section: 'analytics' },
@@ -139,6 +145,7 @@ export default function Navbar() {
             ];
         }
     };
+
 
     const navLinks = getNavLinks();
 
