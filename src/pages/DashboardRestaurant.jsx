@@ -18,7 +18,12 @@ export default function DashboardRestaurant() {
   }, []);
 
   const completedDonations = myDonations.filter(d => d.status === 'completed');
-  const activeDonations = myDonations.filter(d => d.status !== 'completed');
+  const ACTIVE_STATUSES = ["available", "accepted", "picked"];
+
+  const activeDonations = myDonations.filter(d =>
+    ACTIVE_STATUSES.includes(d.status)
+  );
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-100 py-8">

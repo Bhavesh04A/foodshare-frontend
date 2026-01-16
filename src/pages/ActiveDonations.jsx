@@ -16,7 +16,12 @@ export default function ActiveDonations() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const active = myDonations.filter(d => d.status !== "completed");
+  const ACTIVE_STATUSES = ["available", "accepted", "picked"];
+
+  const active = myDonations.filter(d =>
+    ACTIVE_STATUSES.includes(d.status)
+  );
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-100 py-8">
