@@ -19,6 +19,17 @@ export default function DonationCard({
 
   if (!donation) return null;
 
+  // ✅ NEW: expired flag
+  const isExpired = donation.status === "expired";
+
+  // ✅ NEW: hide expired for NGO & Volunteer
+  if (
+    isExpired &&
+    (user?.role === "ngo" || user?.role === "volunteer")
+  ) {
+    return null;
+  }
+
   const proximity = user
     ? getProximityLabel(
         user && user.pinCode ? user.pinCode : "",
@@ -47,13 +58,10 @@ export default function DonationCard({
           let bufferData;
           
           if (imageData.data.type === 'Buffer' && Array.isArray(imageData.data.data)) {
-            // MongoDB Buffer format: { type: 'Buffer', data: [array] }
             bufferData = new Uint8Array(imageData.data.data);
           } else if (imageData.data instanceof Uint8Array) {
-            // Already Uint8Array
             bufferData = imageData.data;
           } else if (Array.isArray(imageData.data)) {
-            // Array format
             bufferData = new Uint8Array(imageData.data);
           } else {
             console.warn("Unknown image data format:", imageData.data);
@@ -78,7 +86,6 @@ export default function DonationCard({
   };
 
   const imageUrl = getImageUrl();
-
   const qrValue = donation ? `${donation._id}:${donation.qrToken}` : "";
 
   return (
@@ -97,16 +104,16 @@ export default function DonationCard({
               alt={donation.title}
               className="w-full h-full object-cover"
               onError={(e) => { 
-                console.log("Image failed to load, URL:", imageUrl);
-                console.log("Donation ID:", donation._id);
                 e.target.onerror = null; 
                 e.target.src = "/placeholder-food.jpg"; 
               }}
-              onLoad={() => console.log("Image loaded successfully for donation:", donation._id)}
             />
+
             {/* Status Badge */}
             <div className={`absolute top-4 right-4 text-xs font-bold px-3 py-2 rounded-full shadow-lg ${
-              isAvailable
+              isExpired
+                ? "bg-gradient-to-r from-red-500 to-red-600 text-white"
+                : isAvailable
                 ? "bg-gradient-to-r from-green-500 to-emerald-500 text-white"
                 : isAccepted
                 ? "bg-gradient-to-r from-amber-500 to-yellow-500 text-gray-900"
@@ -116,7 +123,7 @@ export default function DonationCard({
             </div>
           </div>
 
-          {/* Rest of your DonationCard content remains the same */}
+          {/* Content */}
           <div className="p-6 space-y-4">
             <div className="flex justify-between items-start">
               <h4 className="text-2xl font-bold text-gray-800 leading-tight">
@@ -181,7 +188,7 @@ export default function DonationCard({
             {/* Action Buttons */}
             <div className="pt-4 flex flex-wrap gap-3">
               {/* NGO accept donation */}
-              {user && user.role === "ngo" && isAvailable && (
+              {user && user.role === "ngo" && isAvailable && !isExpired && (
                 <Button
                   variant="primary"
                   onClick={() => onAccept && onAccept(donation._id)}
@@ -213,8 +220,8 @@ export default function DonationCard({
                   </Button>
                 )}
 
-              {/* Restaurant delete */}
-              {user && user.role === "restaurant" && isAvailable && (
+              {/* Restaurant delete (available OR expired) */}
+              {user && user.role === "restaurant" && (isAvailable || isExpired) && (
                 <Button
                   variant="danger"
                   onClick={() => {
@@ -232,7 +239,11 @@ export default function DonationCard({
               {user && user.role === "restaurant" &&
                 !isAvailable &&
                 !isCompleted && (
-                  <Button variant="outline" onClick={() => setShowQR(true)} className="rounded-xl">
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowQR(true)}
+                    className="rounded-xl"
+                  >
                     View QR Code
                   </Button>
                 )}
@@ -260,7 +271,6 @@ export default function DonationCard({
                 <h2 className="text-xl font-bold text-white">Pickup QR Code</h2>
               </div>
 
-              {/* SMALL QR — NOT 512px */}
               <div className="p-4 bg-white rounded-xl border border-gray-200 inline-block">
                 <LazyQRCode value={qrValue} size={180} />
               </div>

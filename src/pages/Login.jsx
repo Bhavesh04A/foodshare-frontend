@@ -21,6 +21,11 @@ const DEMO_CREDENTIALS = {
     email: 'demo_volunteer@foodshare.com',
     password: 'demo123',
     description: 'Try volunteer features like accepting delivery tasks, QR confirmations, and tracking your impact.'
+  },
+  waste_partner: {
+    email: 'demo_waste@foodshare.com',
+    password: 'demo123',
+    description: 'Test waste partner features like recycling expired food and QR-based pickups.'
   }
 };
 
@@ -47,6 +52,7 @@ export default function Login() {
       case 'restaurant': return '/dashboard/restaurant';
       case 'ngo': return '/dashboard/ngo';
       case 'volunteer': return '/dashboard/volunteer';
+      case 'waste_partner': return '/home/waste';
       default: return '/';
     }
   };
@@ -105,6 +111,7 @@ export default function Login() {
                   {role === 'restaurant' && '🏪'}
                   {role === 'ngo' && '🤝'}
                   {role === 'volunteer' && '🚗'}
+                  {role === 'waste_partner' && '♻️'}
                 </div>
                 <h4 className="font-semibold capitalize text-gray-800">{role}</h4>
                 <p className="text-xs text-gray-600 mt-1">Click to auto-fill demo credentials</p>

@@ -18,13 +18,10 @@ import ProtectedRoute from './components/ProtectedRoute';
 import ActiveDonations from './pages/ActiveDonations';
 import CompletedDonations from './pages/CompletedDonations';
 
-
 import RestaurantHome from './pages/RestaurantHome';
 import NGOHome from './pages/NGOHome';
 import VolunteerHome from './pages/VolunteerHome';
-import RestaurantImpact from './pages/RestaurantImpact';
-import NGOImpactReport from './pages/NGOImpactReport';
-import VolunteerAchievements from './pages/VolunteerAchievements';
+import WastePartnerHome from './pages/WastePartnerHome';
 
 
 const router = createBrowserRouter([
@@ -42,24 +39,22 @@ const router = createBrowserRouter([
 
       {
         element: <ProtectedRoute allowedRoles={['restaurant']} />,
-        children: [
-          { path: 'home/restaurant', element: <RestaurantHome /> },
-        ],
+        children: [{ path: 'home/restaurant', element: <RestaurantHome /> }],
       },
       {
         element: <ProtectedRoute allowedRoles={['ngo']} />,
-        children: [
-          { path: 'home/ngo', element: <NGOHome /> },
-        ],
+        children: [{ path: 'home/ngo', element: <NGOHome /> }],
       },
       {
         element: <ProtectedRoute allowedRoles={['volunteer']} />,
-        children: [
-          { path: 'home/volunteer', element: <VolunteerHome /> },
-        ],
+        children: [{ path: 'home/volunteer', element: <VolunteerHome /> }],
       },
 
-      // DASHBOARD ROUTES (keep existing)
+      {
+        element: <ProtectedRoute allowedRoles={['waste_partner']} />,
+        children: [{ path: 'home/waste', element: <WastePartnerHome /> }],
+      },
+
       {
         element: <ProtectedRoute allowedRoles={['restaurant','ngo','volunteer']} />,
         children: [
@@ -69,32 +64,11 @@ const router = createBrowserRouter([
         ],
       },
 
-      // FIXED ADD DONATION ROUTE
       {
         element: <ProtectedRoute allowedRoles={['restaurant']} />,
-        children: [
-          { path: 'add-donation', element: <AddDonation /> }
-        ]
+        children: [{ path: 'add-donation', element: <AddDonation /> }],
       },
 
-      {
-          element: <ProtectedRoute allowedRoles={['restaurant']} />,
-          children: [
-              { path: 'impact/restaurant', element: <RestaurantImpact /> },
-          ],
-      },
-      {
-          element: <ProtectedRoute allowedRoles={['ngo']} />,
-          children: [
-              { path: 'impact/ngo', element: <NGOImpactReport /> },
-          ],
-      },
-      {
-          element: <ProtectedRoute allowedRoles={['volunteer']} />,
-          children: [
-              { path: 'achievements/volunteer', element: <VolunteerAchievements /> },
-          ],
-      },
       {
         element: <ProtectedRoute allowedRoles={['restaurant','ngo','volunteer']} />,
         children: [

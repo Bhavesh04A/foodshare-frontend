@@ -6,6 +6,7 @@ export const useDonationStore = create((set, get) => ({
     availableDonations: [],
     myDonations: [],
     volunteerTasks: [],
+    expiredDonations: [], // ✅ ADDED
     loading: false,
 
     fetchAvailableDonations: async function(pin, type) {
@@ -135,5 +136,47 @@ export const useDonationStore = create((set, get) => ({
         } finally {
             set({ loading: false });
         }
-    }
+    },
+
+    /* ================= WASTE PARTNER (ONLY ADDITIONS) ================= */
+
+    fetchExpiredDonations: async function() {
+        set({ loading: true });
+        try {
+            const data = await donationService.getExpiredDonations();
+            set({ expiredDonations: Array.isArray(data) ? data : [] });
+        } catch (error) {
+            toast.error("Failed to fetch expired donations.");
+        } finally {
+            set({ loading: false });
+        }
+    },
+
+    acceptForRecycling: async function(donationId) {
+        set({ loading: true });
+        try {
+            await donationService.acceptForRecycling(donationId);
+            toast.success("Accepted for recycling");
+            await get().fetchExpiredDonations();
+        } catch (error) {
+            toast.error("Failed to accept for recycling");
+        } finally {
+            set({ loading: false });
+        }
+    },
+
+    confirmRecyclePickup: async function(donationId, qrToken) {
+        set({ loading: true });
+        try {
+            await donationService.confirmRecyclePickup(donationId, qrToken);
+            toast.success("Recycled successfully");
+            await get().fetchExpiredDonations();
+            return true;
+        } catch (error) {
+            toast.error("Invalid QR token");
+            return false;
+        } finally {
+            set({ loading: false });
+        }
+    },
 }));

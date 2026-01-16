@@ -20,6 +20,7 @@ export default function Register() {
       case 'restaurant': return '/dashboard/restaurant';
       case 'ngo': return '/dashboard/ngo';
       case 'volunteer': return '/dashboard/volunteer';
+      case 'waste_partner': return '/home/waste';
       default: return '/';
     }
   };
@@ -51,7 +52,8 @@ export default function Register() {
   const roleDescriptions = {
     restaurant: "Share surplus food from your establishment",
     ngo: "Receive and distribute food to communities",
-    volunteer: "Help with food collection and delivery"
+    volunteer: "Help with food collection and delivery",
+    waste_partner: "Recycle and process expired food safely"
   };
 
   return (
@@ -140,6 +142,7 @@ export default function Register() {
               <option value="restaurant">🍽️ Restaurant / Food Donor</option>
               <option value="ngo">🤝 NGO / Food Receiver</option>
               <option value="volunteer">🚗 Volunteer / Delivery Helper</option>
+              <option value="waste_partner">♻️ Waste Partner / Recycling</option>
             </select>
             <p className="text-sm text-gray-500 mt-1">
               {roleDescriptions[form.role]}

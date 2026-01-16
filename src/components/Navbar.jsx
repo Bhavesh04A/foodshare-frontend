@@ -73,6 +73,7 @@ export default function Navbar() {
             case 'restaurant': return '/home/restaurant';
             case 'ngo': return '/home/ngo';
             case 'volunteer': return '/home/volunteer';
+            case 'waste_partner': return '/home/waste';
             default: return '/';
         }
     };
@@ -82,12 +83,11 @@ export default function Navbar() {
             case 'restaurant': return '/dashboard/restaurant';
             case 'ngo': return '/dashboard/ngo';
             case 'volunteer': return '/dashboard/volunteer';
-            case 'beneficiary': return '/dashboard/beneficiary';
-            case 'dealer': return '/dashboard/dealer';
-            case 'admin': return '/dashboard/admin';
+            case 'waste_partner': return '/home/waste';
             default: return '/';
         }
     };
+
 
     const getCurrentHomePath = () => {
         return user ? getHomePath(user.role) : '/';

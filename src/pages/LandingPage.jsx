@@ -108,11 +108,20 @@ const LoginOptions = () => {
             color: 'from-orange-500 to-amber-500',
             features: ['Flexible timing', 'Make a difference', 'Community connection'],
             buttonText: 'Volunteer Login'
+        },
+        {
+            role: 'waste_partner',
+            title: 'Waste Partner',
+            description: 'Recycle & Process Expired Food',
+            icon: '♻️',
+            color: 'from-emerald-600 to-green-600',
+            features: ['Food recycling', 'Reduce landfill waste', 'Environmental impact'],
+            buttonText: 'Waste Partner Login'
         }
     ];
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             {options.map((option, index) => (
                 <motion.div
                     key={option.role}

@@ -62,3 +62,22 @@ export const volunteerAccept = async(donationId) => {
     );
     return response.data;
 };
+
+/* ================= WASTE PARTNER (ONLY ADDITIONS) ================= */
+
+export const getExpiredDonations = async() => {
+    const response = await api.get("/waste/expired");
+    return response.data;
+};
+
+export const acceptForRecycling = async(donationId) => {
+    const response = await api.post(`/waste/${donationId}/accept`);
+    return response.data;
+};
+
+export const confirmRecyclePickup = async(donationId, qrToken) => {
+    const response = await api.post(
+        `/waste/${donationId}/confirm`, { qrToken }
+    );
+    return response.data;
+};
