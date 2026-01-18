@@ -17,11 +17,12 @@ export default function DashboardRestaurant() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const completedDonations = myDonations.filter(d => d.status === 'completed');
-  const ACTIVE_STATUSES = ["available", "accepted", "picked"];
+  const completedDonations = myDonations.filter(
+    d => d.status === 'completed' || d.status === 'recycled'
+  );
 
-  const activeDonations = myDonations.filter(d =>
-    ACTIVE_STATUSES.includes(d.status)
+  const activeDonations = myDonations.filter(
+    d => d.status !== 'completed' && d.status !== 'recycled'
   );
 
 

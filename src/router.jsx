@@ -7,9 +7,12 @@ import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import Login from './pages/Login';
 import Register from './pages/Register';
+
 import DashboardRestaurant from './pages/DashboardRestaurant';
 import DashboardNGO from './pages/DashboardNGO';
 import DashboardVolunteer from './pages/DashboardVolunteer';
+import DashboardWastePartner from './pages/DashboardWastePartner'; // ✅ NEW
+
 import AddDonation from './pages/AddDonation';
 import AiAssistant from './pages/AiAssistant';
 import Analytics from './pages/Analytics';
@@ -21,8 +24,9 @@ import CompletedDonations from './pages/CompletedDonations';
 import RestaurantHome from './pages/RestaurantHome';
 import NGOHome from './pages/NGOHome';
 import VolunteerHome from './pages/VolunteerHome';
-import WastePartnerHome from './pages/WastePartnerHome';
-
+import RestaurantImpact from './pages/RestaurantImpact';
+import NGOImpactReport from './pages/NGOImpactReport';
+import VolunteerAchievements from './pages/VolunteerAchievements';
 
 const router = createBrowserRouter([
   {
@@ -50,17 +54,21 @@ const router = createBrowserRouter([
         children: [{ path: 'home/volunteer', element: <VolunteerHome /> }],
       },
 
+     
       {
-        element: <ProtectedRoute allowedRoles={['waste_partner']} />,
-        children: [{ path: 'home/waste', element: <WastePartnerHome /> }],
-      },
-
-      {
-        element: <ProtectedRoute allowedRoles={['restaurant','ngo','volunteer']} />,
+        element: <ProtectedRoute allowedRoles={['restaurant', 'ngo', 'volunteer']} />,
         children: [
           { path: 'dashboard/restaurant', element: <DashboardRestaurant /> },
           { path: 'dashboard/ngo', element: <DashboardNGO /> },
           { path: 'dashboard/volunteer', element: <DashboardVolunteer /> },
+        ],
+      },
+
+      
+      {
+        element: <ProtectedRoute allowedRoles={['waste_partner']} />,
+        children: [
+          { path: 'dashboard/waste-partner', element: <DashboardWastePartner /> },
         ],
       },
 
@@ -70,7 +78,20 @@ const router = createBrowserRouter([
       },
 
       {
-        element: <ProtectedRoute allowedRoles={['restaurant','ngo','volunteer']} />,
+        element: <ProtectedRoute allowedRoles={['restaurant']} />,
+        children: [{ path: 'impact/restaurant', element: <RestaurantImpact /> }],
+      },
+      {
+        element: <ProtectedRoute allowedRoles={['ngo']} />,
+        children: [{ path: 'impact/ngo', element: <NGOImpactReport /> }],
+      },
+      {
+        element: <ProtectedRoute allowedRoles={['volunteer']} />,
+        children: [{ path: 'achievements/volunteer', element: <VolunteerAchievements /> }],
+      },
+
+      {
+        element: <ProtectedRoute allowedRoles={['restaurant', 'ngo', 'volunteer']} />,
         children: [
           { path: 'donations/active', element: <ActiveDonations /> },
           { path: 'donations/completed', element: <CompletedDonations /> },

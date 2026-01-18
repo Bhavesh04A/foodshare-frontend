@@ -1,5 +1,6 @@
 import api from "./api";
 
+/* ---------------- CREATE DONATION ---------------- */
 export const createDonation = async(donationData) => {
     const formData = new FormData();
 
@@ -20,11 +21,13 @@ export const createDonation = async(donationData) => {
     return response.data;
 };
 
+/* ---------------- DELETE ---------------- */
 export const deleteDonation = async(donationId) => {
     const response = await api.delete(`/donations/${donationId}`);
     return response.data;
 };
 
+/* ---------------- AVAILABLE ---------------- */
 export const getAvailableDonations = async(pin, type) => {
     const response = await api.get("/donations/available", {
         params: { pin, type }
@@ -32,11 +35,13 @@ export const getAvailableDonations = async(pin, type) => {
     return response.data;
 };
 
+/* ---------------- USER DONATIONS ---------------- */
 export const getUserDonations = async() => {
     const response = await api.get("/donations/mine");
     return response.data;
 };
 
+/* ---------------- NGO ACCEPT ---------------- */
 export const acceptDonation = async(donationId, volunteerId = null) => {
     const response = await api.post(
         `/donations/${donationId}/accept`, { volunteerId }
@@ -44,6 +49,7 @@ export const acceptDonation = async(donationId, volunteerId = null) => {
     return response.data;
 };
 
+/* ---------------- CONFIRM PICKUP ---------------- */
 export const confirmPickup = async(donationId, qrToken) => {
     const response = await api.post(
         `/donations/${donationId}/confirm`, { qrToken }
@@ -51,6 +57,7 @@ export const confirmPickup = async(donationId, qrToken) => {
     return response.data;
 };
 
+/* ---------------- VOLUNTEER ---------------- */
 export const getVolunteerTasks = async() => {
     const response = await api.get("/volunteer/tasks");
     return response.data;
@@ -63,21 +70,18 @@ export const volunteerAccept = async(donationId) => {
     return response.data;
 };
 
-/* ================= WASTE PARTNER (ONLY ADDITIONS) ================= */
+/* ================= WASTE PARTNER (NEW) ================= */
 
+/* ---- FETCH EXPIRED DONATIONS ---- */
 export const getExpiredDonations = async() => {
-    const response = await api.get("/waste/expired");
+    const response = await api.get("/donations/expired");
     return response.data;
 };
 
-export const acceptForRecycling = async(donationId) => {
-    const response = await api.post(`/waste/${donationId}/accept`);
-    return response.data;
-};
-
-export const confirmRecyclePickup = async(donationId, qrToken) => {
+/* ---- ACCEPT DONATION FOR RECYCLING ---- */
+export const acceptExpiredDonation = async(donationId) => {
     const response = await api.post(
-        `/waste/${donationId}/confirm`, { qrToken }
+        `/donations/${donationId}/recycle-accept`, {}
     );
     return response.data;
 };

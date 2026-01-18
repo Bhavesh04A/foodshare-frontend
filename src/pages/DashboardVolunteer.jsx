@@ -65,9 +65,8 @@ export default function DashboardVolunteer() {
   );
 
   const activeTasks = (volunteerTasks || []).filter(
-    t => t && (t.status === "accepted" || t.status === "picked") && t.status !== "expired"
+    (t) => t && (t.status === "accepted" || t.status === "picked")
   );
-
 
   const completedCount = (volunteerTasks || []).filter(
     (t) => t && t.status === "completed"

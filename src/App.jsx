@@ -17,9 +17,10 @@ export default function App() {
         location.pathname === '/register' ||
         location.pathname === '/')
     ) {
-      let homePath = '/';
+      const role = user.role;
+      let homePath;
 
-      switch (user.role) {
+      switch (role) {
         case 'restaurant':
           homePath = '/home/restaurant';
           break;
@@ -29,8 +30,8 @@ export default function App() {
         case 'volunteer':
           homePath = '/home/volunteer';
           break;
-        case 'waste_partner':
-          homePath = '/home/waste';
+        case 'waste_partner':               // ✅ NEW
+          homePath = '/dashboard/waste-partner';
           break;
         default:
           homePath = '/';
@@ -40,7 +41,8 @@ export default function App() {
         navigate(homePath, { replace: true });
       }
     }
-  }, [user, location.pathname, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, location.pathname]);
 
   return (
     <div className="flex flex-col min-h-screen">
